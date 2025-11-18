@@ -49,27 +49,24 @@ export default function SalesReport() {
 
   return (
     <div style={styles.container}>
-      {/* Header */}
       <div style={styles.header}>
         <div style={styles.gradientDot} />
         <h2 style={styles.title}>Reporte de Ventas</h2>
       </div>
-      <p style={styles.subtitle}>Comparativo total de ventas por cliente</p>
 
-      {/* Tarjeta principal */}
       <div style={styles.tableCard}>
         {loading ? (
           <div style={styles.loadingBox}>Generando reporte...</div>
         ) : error ? (
           <div style={styles.errorBox}>{error}</div>
         ) : (
-          <div style={{ overflowX: "auto" }}>
+          <div style={{ overflowX: "auto", boxSizing: "border-box" }}>
             <table style={styles.table}>
               <thead>
                 <tr>
                   <th style={styles.th}>Cliente</th>
                   <th style={styles.th}>Total Vendido</th>
-                  <th style={styles.th}>Participación</th>
+                  <th style={styles.th}>Porcentaje</th>
                 </tr>
               </thead>
 
@@ -82,7 +79,7 @@ export default function SalesReport() {
                   </tr>
                 ) : (
                   report.map((r, i) => {
-                    const amount = parseFloat(r.total_sales);
+                    const amount = parseFloat(r.total_sales || 0);
                     const percent =
                       totalGeneral > 0
                         ? ((amount / totalGeneral) * 100).toFixed(1)
@@ -99,7 +96,7 @@ export default function SalesReport() {
                             <div
                               style={{
                                 ...styles.barFill,
-                                width: `${percent}%`,
+                                width: `${Math.max(0, Math.min(100, percent))}%`,
                               }}
                             ></div>
                           </div>
@@ -118,12 +115,11 @@ export default function SalesReport() {
   );
 }
 
-/* ---------------------- estilos idénticos a Sales.jsx ---------------------- */
-
 const styles = {
   container: {
     width: "100%",
     padding: 30,
+    boxSizing: "border-box",
     color: "#ffffff",
   },
 
@@ -131,7 +127,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     gap: 12,
-    marginBottom: 4,
+    marginBottom: 6,
   },
 
   gradientDot: {
@@ -145,6 +141,7 @@ const styles = {
     fontSize: 20,
     fontWeight: 700,
     color: "#c7b6ff",
+    margin: 0,
   },
 
   subtitle: {
@@ -159,6 +156,7 @@ const styles = {
     border: "1px solid #1d1d22",
     padding: 8,
     boxShadow: "0 6px 18px rgba(0,0,0,0.65)",
+    boxSizing: "border-box",
   },
 
   loadingBox: {
@@ -178,7 +176,9 @@ const styles = {
   table: {
     width: "100%",
     borderCollapse: "collapse",
-    minWidth: 720,
+    color: "#e5e7eb",
+    minWidth: 0, 
+    boxSizing: "border-box",
   },
 
   th: {
@@ -190,6 +190,7 @@ const styles = {
     textTransform: "uppercase",
     borderBottom: "1px solid #1d1d22",
     background: "#0a0a0b",
+    whiteSpace: "nowrap", 
   },
 
   tr: {
@@ -201,6 +202,11 @@ const styles = {
     padding: "14px 16px",
     color: "#eee",
     fontSize: 14,
+    whiteSpace: "normal", 
+    wordBreak: "break-word",
+    overflowWrap: "anywhere",
+    boxSizing: "border-box",
+    maxWidth: 360,  
   },
 
   tdStrong: {
@@ -208,6 +214,10 @@ const styles = {
     color: "white",
     fontSize: 15,
     fontWeight: 600,
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+    overflowWrap: "anywhere",
+    maxWidth: 360,
   },
 
   amount: {
@@ -215,6 +225,7 @@ const styles = {
     fontSize: 15,
     fontWeight: 700,
     color: "#c792ff",
+    whiteSpace: "nowrap",
   },
 
   noData: {
@@ -222,8 +233,6 @@ const styles = {
     textAlign: "center",
     color: "#999",
   },
-
-  /* ---- Barras de porcentaje ---- */
 
   barContainer: {
     width: "100%",
@@ -243,5 +252,7 @@ const styles = {
   percentText: {
     fontSize: 12,
     color: "#bbb",
+    display: "inline-block",
+    marginLeft: 8,
   },
 };

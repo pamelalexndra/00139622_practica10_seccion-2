@@ -16,11 +16,11 @@ export default function Sales() {
         const data = await res.json();
 
         if (!cancelled) {
-          if (data.success && Array.isArray(data.sales)) {
+          if (data && data.success && Array.isArray(data.sales)) {
             setSales(data.sales);
           } else {
             setSales([]);
-            setError(data.message || "No se pudieron cargar las ventas.");
+            setError(data?.message || "No se pudieron cargar las ventas.");
           }
         }
       } catch (err) {
@@ -57,76 +57,66 @@ export default function Sales() {
 
   return (
     <div style={styles.container}>
-      {/* Header */}
       <div style={styles.header}>
         <div style={styles.gradientDot} />
         <h2 style={styles.title}>Historial de Ventas</h2>
       </div>
-      <p style={styles.subtitle}>Registro completo de ventas realizadas</p>
 
-      {/* Tabla */}
       <div style={styles.tableCard}>
         {loading ? (
           <div style={styles.loadingBox}>Cargando ventas...</div>
         ) : error ? (
           <div style={styles.errorBox}>{error}</div>
         ) : (
-          <>
-            <div style={{ overflowX: "auto" }}>
-              <table style={styles.table}>
-                <thead>
+          <div style={{ overflowX: "auto" }}>
+            <table style={styles.table} aria-label="Tabla de ventas">
+              <thead>
+                <tr>
+                  <th style={styles.th}>ID</th>
+                  <th style={styles.th}>Monto</th>
+                  <th style={styles.th}>Fecha</th>
+                  <th style={styles.th}>Cliente</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {sales.length === 0 ? (
                   <tr>
-                    <th style={styles.th}>Código</th>
-                    <th style={styles.th}>Cliente</th>
-                    <th style={styles.th}>Contacto</th>
-                    <th style={styles.th}>Fecha</th>
-                    <th style={styles.th}>Monto</th>
+                    <td colSpan={4} style={styles.noData}>
+                      No hay ventas registradas
+                    </td>
                   </tr>
-                </thead>
+                ) : (
+                  sales.map((s, i) => {
+                    const id = s.id ?? i;
+                    const amount = s.amount ?? 0;
+                    const date = s.created_at ?? s.createdAt ?? null;
+                    const customerName = s.customer_name ?? s.name ?? "—";
 
-                <tbody>
-                  {sales.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} style={styles.noData}>
-                        No hay ventas registradas
-                      </td>
-                    </tr>
-                  ) : (
-                    sales.map((s, i) => {
-                      const code = s.customer_code ?? s.code ?? `CLI-${String(s.id ?? "").padStart(3, "0")}`;
-                      const customer = s.customer_name ?? s.name ?? "—";
-                      const contact = s.customer_email ?? s.email ?? s.contact ?? "N/A";
-
-                      return (
-                        <tr key={s.id ?? i} style={styles.tr}>
-                          <td style={styles.td}>
-                            <span style={styles.codeTag}>{code}</span>
-                          </td>
-
-                          <td style={styles.tdStrong}>{customer}</td>
-                          <td style={styles.td}>{contact}</td>
-                          <td style={styles.td}>{formatDate(s.created_at)}</td>
-                          <td style={styles.amount}>{formatAmount(s.amount)}</td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </>
+                    return (
+                      <tr key={id} style={styles.tr}>
+                        <td style={styles.td}>{id}</td>
+                        <td style={styles.amount}>{formatAmount(amount)}</td>
+                        <td style={styles.td}>{formatDate(date)}</td>
+                        <td style={styles.tdStrong}>{customerName}</td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
   );
 }
 
-/* ---------------------- estilos versión OSCURA TOTAL ---------------------- */
-
 const styles = {
   container: {
     width: "100%",
     padding: 30,
+    boxSizing: "border-box",
     color: "#ffffff",
   },
 
@@ -181,7 +171,7 @@ const styles = {
   table: {
     width: "100%",
     borderCollapse: "collapse",
-    minWidth: 720,
+    minWidth: 640,
   },
 
   th: {
@@ -193,6 +183,7 @@ const styles = {
     textTransform: "uppercase",
     borderBottom: "1px solid #1d1d22",
     background: "#0a0a0b",
+    whiteSpace: "nowrap",
   },
 
   tr: {
@@ -218,6 +209,7 @@ const styles = {
     fontSize: 15,
     fontWeight: 700,
     color: "#c792ff",
+    whiteSpace: "nowrap",
   },
 
   codeTag: {

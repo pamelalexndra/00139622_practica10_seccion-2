@@ -12,9 +12,9 @@ export default function Landing() {
       <TopBar />
       <CustomerList />
       <CustomerSearch />
-      <Sales endpoint="http://localhost:3000/sales" />
       <RegisterSale />
       <SalesReport/>
+      <Sales/>
     </div>
   )
 }
