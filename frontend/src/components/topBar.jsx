@@ -1,40 +1,8 @@
 import React, { useState } from "react";
 
-export default function topBar() {
+export default function TopBar() {
   const [active, setActive] = useState("Ventas");
   const items = ["Buscar cliente", "Clientes", "Nueva venta", "Venta por cliente", "Ventas"];
-
-  const barStyle = {
-    width: "100vw",               
-    background: "#0b0d0f",
-    color: "#cbd5e1",
-    borderBottom: "1px solid rgba(255,255,255,0.04)",
-    padding: "14px 28px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    boxSizing: "border-box",
-
-    position: "fixed",            
-    top: 0,                       
-    left: 0,                      
-    zIndex: 9999,                 
-  };
-
-  const titleStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    fontSize: 18,
-    fontWeight: 600,
-    color: "#e6eef8",
-  };
-
-  const menuStyle = {
-    display: "flex",
-    gap: 18,
-    alignItems: "center",
-  };
 
   const btnBase = {
     background: "transparent",
@@ -61,13 +29,13 @@ export default function topBar() {
   };
 
   return (
-    <nav style={barStyle} aria-label="main navigation">
-      <div style={titleStyle}>
+    <nav className="topbar" aria-label="main navigation">
+      <div className="topbar-left">
         <span style={{ color: "#f6b93b", fontSize: 18 }}>:D</span>
-        <span>Laboratorio 10 </span>
+        <span className="topbar-title">Laboratorio 10</span>
       </div>
 
-      <div style={menuStyle}>
+      <div className="topbar-menu">
         {items.map((it) => {
           const isActive = it === active;
           return (
