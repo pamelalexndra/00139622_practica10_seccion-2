@@ -38,7 +38,7 @@ export default function registerSale() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3010/sales/create", {
+      const res = await fetch("http://localhost:3010/sales", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -73,7 +73,7 @@ export default function registerSale() {
             className="input"
             type="number"
             step="0.01"
-            placeholder="Monto (ej. 150.50)"
+            placeholder="Monto"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
@@ -81,7 +81,7 @@ export default function registerSale() {
             className="input"
             style={{ maxWidth: 220 }}
             type="number"
-            placeholder="ID del cliente (ej. 12)"
+            placeholder="ID del cliente"
             value={idCustomer}
             onChange={(e) => setIdCustomer(e.target.value)}
           />

@@ -18,7 +18,7 @@ export default function CustomerSearch() {
     setCustomer(null);
 
     try {
-      const res = await fetch(`http://localhost:3010/search?code=${encodeURIComponent(code)}`);
+      const res = await fetch(`http://localhost:3010/customers/search?code=${encodeURIComponent(code)}`);
       const data = await res.json();
 
       if (data?.success && Array.isArray(data.resultsFind) && data.resultsFind.length > 0) {
