@@ -43,7 +43,7 @@ export default function CustomerList() {
         <h2 style={styles.title}>Listado de Clientes</h2>
       </div>
 
-      <p style={styles.subtitle}>Base de datos completa de clientes</p>
+      <p style={styles.title}>Base de datos completa de clientes</p>
 
       <div style={styles.tableWrapper}>
         <table style={styles.table}>
@@ -69,7 +69,6 @@ export default function CustomerList() {
                 <td style={styles.td}>{c.name}</td>
                 <td style={styles.td}>{c.email || "N/A"}</td>
                 <td style={styles.td}>{c.phone || "N/A"}</td>
-                <td style={styles.td}>{c.total_sales || 0}</td>
 
                 <td style={{ ...styles.td, fontWeight: 700 }}>
                   ${parseFloat(c.total_amount || 0).toLocaleString("en-US", {
@@ -87,7 +86,7 @@ export default function CustomerList() {
         )}
       </div>
 
-      <div style={styles.footer}>
+      <div style={styles.subtitle}>
         Total de clientes: <strong>{customers.length}</strong>
       </div>
     </div>

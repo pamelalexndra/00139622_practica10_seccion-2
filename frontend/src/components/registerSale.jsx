@@ -50,7 +50,6 @@ export default function RegisterSaleFromSearchStyle() {
     <div style={styles.container}>
       {/* TÍTULO */}
       <div style={styles.header}>
-        <span style={styles.icon}>🧾</span>
         <h2 style={styles.title}>Registrar Nueva Venta</h2>
       </div>
       <p style={styles.subtitle}>Registra una venta rápida asociada a un cliente existente</p>
@@ -121,8 +120,6 @@ export default function RegisterSaleFromSearchStyle() {
     </div>
   );
 }
-
-/* -------------------- ESTILOS (copiados del CustomerSearch) -------------------- */
 
 const styles = {
   container: {
